@@ -197,10 +197,9 @@ export default {
           `http://api.timezonedb.com/v2.1/get-time-zone?key=DKGJLVWEORBI&format=json&by=position&lng=${this.weatherData.coord.lon}&lat=${this.weatherData.coord.lat}`
         );
         this.currentDate = dateResponse.data.formatted;
-        console.log(this.weatherData);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
         this.errorSnackbar = true;
+        throw new Error(error);
       }
     },
     disableSnackbar() {

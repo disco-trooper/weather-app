@@ -57,7 +57,7 @@
               <v-col cols="4" class="">
                 <v-img
                   :src="
-                    `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
+                    `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
                   "
                   alt="Weather Image"
                   width="122"
@@ -189,12 +189,12 @@ export default {
       try {
         const weatherResponse = await axios.get(
           // eslint-disable-next-line comma-dangle
-          `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=5528d9bb37a327d3c11bcaa0d374750f`
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=5528d9bb37a327d3c11bcaa0d374750f`
         );
         this.weatherData = weatherResponse.data;
         const dateResponse = await axios.get(
           // eslint-disable-next-line comma-dangle
-          `http://api.timezonedb.com/v2.1/get-time-zone?key=DKGJLVWEORBI&format=json&by=position&lng=${this.weatherData.coord.lon}&lat=${this.weatherData.coord.lat}`
+          `https://api.timezonedb.com/v2.1/get-time-zone?key=DKGJLVWEORBI&format=json&by=position&lng=${this.weatherData.coord.lon}&lat=${this.weatherData.coord.lat}`
         );
         this.currentDate = dateResponse.data.formatted;
       } catch (error) {

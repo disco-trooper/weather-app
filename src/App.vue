@@ -117,7 +117,7 @@ export default {
   data() {
     return {
       isCelsius: true,
-      currentDate: '2020-03-17 06:51:08',
+      currentDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       errorSnackbar: false,
       infoSnackbar: localStorage.getItem('infoSnackbark'),
       icon: '10d',

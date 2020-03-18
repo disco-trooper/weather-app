@@ -90,18 +90,6 @@
           </v-card-actions>
         </v-card>
       </v-container>
-      <v-snackbar v-model="errorSnackbar" color="error">
-        City not found.
-        <v-btn text @click="errorSnackbar = false">
-          Close
-        </v-btn>
-      </v-snackbar>
-      <v-snackbar v-model="infoSnackbar" color="primary">
-        Click on the name of the city to change it.
-        <v-btn text @click="disableSnackbar">
-          Close
-        </v-btn>
-      </v-snackbar>
     </v-content>
   </v-app>
 </template>
@@ -121,8 +109,6 @@ export default {
       type: 'city',
       isCelsius: true,
       currentDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      errorSnackbar: false,
-      infoSnackbar: localStorage.getItem('infoSnackbark'),
       icon: '10d',
       weatherData: {
         main: { temp: null, feels_like: null, humidity: null },
@@ -181,10 +167,6 @@ export default {
     },
   },
   created() {
-    if (localStorage.getItem('infoSnackbar') === null) {
-      localStorage.setItem('infoSnackbar', true);
-      this.infoSnackbar = true;
-    }
     this.getData('Prague');
   },
   methods: {
@@ -201,13 +183,8 @@ export default {
         );
         this.currentDate = dateResponse.data.formatted;
       } catch (error) {
-        this.errorSnackbar = true;
         throw new Error(error);
       }
-    },
-    disableSnackbar() {
-      this.infoSnackbar = false;
-      localStorage.setItem('infoSnackbar', false);
     },
   },
 };

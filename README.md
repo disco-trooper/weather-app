@@ -1,8 +1,6 @@
 <h1 align="center">weather-app</h1>
 <p>
-  <a href="https://www.npmjs.com/package/weather-app" target="_blank">
-    <img alt="Version" src="https://img.shields.io/npm/v/weather-app.svg">
-  </a>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg" />
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>

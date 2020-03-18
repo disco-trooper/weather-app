@@ -7,27 +7,28 @@
     </v-app-bar>
     <v-content>
       <v-container>
-        <v-card class="mx-auto mt-10" max-width="400">
+        <v-card class="mx-auto mt-2" max-width="400">
+          <app-search
+            :type="type"
+            :api-key="apiKey"
+            :app-id="appId"
+            :key="`${appId}-${apiKey}`"
+            @change="getData($event.suggestion.name)"
+          ></app-search>
+        </v-card>
+        <v-card class="mx-auto mt-1" max-width="400">
           <v-list-item two-line>
             <v-list-item-content class="mt-2">
-              <v-list-item-title class="headline text-no-wrap"
-                ><v-edit-dialog :return-value.sync="weatherData.name">
-                  {{ weatherData.name }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="weatherData.name"
-                      one-line
-                      @change="getData(weatherData.name)"
-                    />
-                  </template> </v-edit-dialog
-              ></v-list-item-title>
+              <v-list-item-title class="headline text-no-wrap">
+                {{ weatherData.name }}
+              </v-list-item-title>
+
               <v-list-item-subtitle
                 >{{ formattedDate }},
                 {{ weatherDescription }}</v-list-item-subtitle
               >
             </v-list-item-content>
           </v-list-item>
-
           <v-card-text>
             <v-row align="center">
               <v-col class="ml-4" cols="7">
@@ -74,7 +75,6 @@
               >{{ windSpeed }} km/h</v-list-item-subtitle
             >
           </v-list-item>
-
           <v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-water-percent</v-icon>
@@ -83,9 +83,7 @@
               >{{ weatherData.main.humidity }}%</v-list-item-subtitle
             >
           </v-list-item>
-
           <v-divider></v-divider>
-
           <v-card-actions>
             <v-btn text @click="isCelsius = true">&deg;C</v-btn>/
             <v-btn text @click="isCelsius = false">&deg;F</v-btn>
@@ -111,11 +109,16 @@
 <script>
 import axios from 'axios';
 import { parse, format } from 'date-fns';
+import appSearch from './components/Search.vue';
 
 export default {
   name: 'App',
+  components: { appSearch },
   data() {
     return {
+      appId: 'plDV9YZ8G0XP',
+      apiKey: '69cd7249a1a110e76132da2541db49d6',
+      type: 'city',
       isCelsius: true,
       currentDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       errorSnackbar: false,

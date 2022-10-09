@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       appId: 'plDV9YZ8G0XP',
-      apiKey: '69cd7249a1a110e76132da2541db49d6',
+      apiKey: '5528d9bb37a327d3c11bcaa0d374750f',
       type: 'city',
       isCelsius: true,
       currentDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),

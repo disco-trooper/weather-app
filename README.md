@@ -6,7 +6,7 @@
   </a>
 </p>
 
-> A simple weather app. Project made as a part of [The Odin Project's curriculum](https://www.theodinproject.com/courses/javascript/lessons/weather-app).
+> A simple weather app built with Vue.js and Vuetify.
 
 ### ✨ [Demo](https://disco-trooper.github.io/weather-app/)
 

@@ -7,16 +7,15 @@
     </v-app-bar>
     <v-content>
       <v-container>
-        <v-card class="mx-auto mt-2" max-width="400">
-          <app-search
-            :type="type"
-            :api-key="apiKey"
-            :app-id="appId"
-            :key="`${appId}-${apiKey}`"
-            @change="getData($event.suggestion.name)"
-          ></app-search>
-        </v-card>
         <v-card class="mx-auto mt-1" max-width="400">
+          <div class="flex-column-baseline">
+            <v-text-field
+              class="padding"
+              v-model="searchInput"
+              label="City"
+            ></v-text-field>
+            <v-btn outlined @click="getData(searchInput)">Search</v-btn>
+          </div>
           <v-list-item two-line>
             <v-list-item-content class="mt-2">
               <v-list-item-title class="headline text-no-wrap">
@@ -29,27 +28,27 @@
               >
             </v-list-item-content>
           </v-list-item>
-          <v-card-text>
+          <v-card-text class="weather-data-card">
             <v-row align="center">
               <v-col class="ml-4" cols="7">
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="display-2"
                       >{{ roundedTemperature }}&deg;{{
-                        isCelsius ? 'C' : 'F'
+                        isCelsius ? "C" : "F"
                       }}</v-list-item-title
                     >
                     <v-list-item-subtitle class="mt-3 subtitle-2"
                       >Feels like {{ feelsLikeTemperature }}&deg;{{
-                        isCelsius ? 'C' : 'F'
+                        isCelsius ? "C" : "F"
                       }}</v-list-item-subtitle
                     >
                     <v-list-item-subtitle class="mt-3 subtitle-2"
                       >Min: {{ minTemperature }}&deg;{{
-                        isCelsius ? 'C' : 'F'
+                        isCelsius ? "C" : "F"
                       }}
                       / Max: {{ maxTemperature }}&deg;{{
-                        isCelsius ? 'C' : 'F'
+                        isCelsius ? "C" : "F"
                       }}</v-list-item-subtitle
                     >
                   </v-list-item-content>
@@ -57,9 +56,7 @@
               </v-col>
               <v-col cols="4" class="">
                 <v-img
-                  :src="
-                    `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
-                  "
+                  :src="`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`"
                   alt="Weather Image"
                   width="122"
                 ></v-img>
@@ -95,24 +92,21 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { parse, format } from 'date-fns';
-import appSearch from './components/Search.vue';
+import axios from "axios";
+import { parse, format } from "date-fns";
 
 export default {
-  name: 'App',
-  components: { appSearch },
+  name: "App",
   data() {
     return {
-      appId: 'plDV9YZ8G0XP',
-      apiKey: '5528d9bb37a327d3c11bcaa0d374750f',
-      type: 'city',
+      searchInput: "",
+      type: "city",
       isCelsius: true,
-      currentDate: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
-      icon: '10d',
+      currentDate: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+      icon: "10d",
       weatherData: {
         main: { temp: null, feels_like: null, humidity: null },
-        weather: [{ icon: '02d', description: 'Sunny' }],
+        weather: [{ icon: "02d", description: "Sunny" }],
         wind: { speed: null },
       },
     };
@@ -121,9 +115,9 @@ export default {
     weatherDescription() {
       return (
         // eslint-disable-next-line prettier/prettier
-        this.weatherData.weather[0].description.charAt(0).toUpperCase()
+        this.weatherData.weather[0].description.charAt(0).toUpperCase() +
         // eslint-disable-next-line prettier/prettier
-        + this.weatherData.weather[0].description.slice(1)
+        this.weatherData.weather[0].description.slice(1)
       );
     },
     minTemperature() {
@@ -157,35 +151,64 @@ export default {
       return format(
         parse(
           this.currentDate,
-          'yyyy-MM-dd HH:mm:ss',
+          "yyyy-MM-dd HH:mm:ss",
           // eslint-disable-next-line comma-dangle
-          new Date()
+          new Date(),
         ),
         // eslint-disable-next-line prettier/prettier
-        'iii, H:mm',
+        "iii, H:mm",
       );
     },
   },
   created() {
-    this.getData('Prague');
+    this.getData("Prague");
   },
   methods: {
     async getData(city) {
       try {
         const weatherResponse = await axios.get(
           // eslint-disable-next-line comma-dangle
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=5528d9bb37a327d3c11bcaa0d374750f`
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=5528d9bb37a327d3c11bcaa0d374750f`,
         );
         this.weatherData = weatherResponse.data;
         const dateResponse = await axios.get(
           // eslint-disable-next-line comma-dangle
-          `https://api.timezonedb.com/v2.1/get-time-zone?key=DKGJLVWEORBI&format=json&by=position&lng=${this.weatherData.coord.lon}&lat=${this.weatherData.coord.lat}`
+          `https://api.timezonedb.com/v2.1/get-time-zone?key=DKGJLVWEORBI&format=json&by=position&lng=${this.weatherData.coord.lon}&lat=${this.weatherData.coord.lat}`,
         );
         this.currentDate = dateResponse.data.formatted;
+        this.searchInput = "";
       } catch (error) {
-        throw new Error(error);
+        throw error;
       }
     },
   },
 };
 </script>
+
+<style>
+.padding {
+  padding: 10px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tall {
+  height: 50px;
+}
+
+.weather-data-card {
+  display: flex;
+  flex-direction: row;
+  max-height: 200px;
+}
+
+.flex-column-baseline {
+  display: flex;
+  align-items: baseline;
+  margin-right: 10px;
+}
+</style>
